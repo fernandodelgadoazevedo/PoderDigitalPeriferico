@@ -22,7 +22,7 @@ public class TemaModel {
 	
 	@NotNull(message = "Defina o tema de sua postagem!")
 	@Size(min = 5, max = 66)
-	private String Tema;
+	private String tema;
 
 	public Long getId() {
 		return id;
@@ -33,11 +33,11 @@ public class TemaModel {
 	}
 
 	public String getTema() {
-		return Tema;
+		return tema;
 	}
 
 	public void setTema(String tema) {
-		Tema = tema;
+		this.tema = tema;
 	}
 	
 	
