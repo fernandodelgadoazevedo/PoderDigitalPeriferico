@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.podergital.pdp.model.PostagemModel;
 import com.podergital.pdp.repository.PostagemRepository;
+import com.podergital.pdp.repository.TemaRepository;
 
 @RestController
 @RequestMapping("/postagens")
@@ -49,29 +50,26 @@ public class PostagemController {
 		return ResponseEntity.ok(postagemRepository.findAllByTituloContainingIgnoreCase(titulo));
 	}
 	@PostMapping
-	public ResponseEntity<PostagemModel> post (@Valid @RequestBody PostagemModel postagem){
-		if(temaRepository.existsById(postagem.getTema().getId()))
+	public ResponseEntity<PostagemModel> post (@Valid @RequestBody PostagemModel postagens){
+		if(temaRepository.existsById(postagens.getTema().getId()))
 			return ResponseEntity.status(HttpStatus.CREATED)
-					.body(postagemRepository.save(postagem));
+					.body(postagemRepository.save(postagens));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 	@PutMapping
-	public ResponseEntity<PostagemModel> put (@Valid @RequestBody PostagemModel postagem){
-		if (postagemRepository.existsById(postagem.getId())) {
-			if(temaRepository.existsById(postagem.getTema().getId()))
-				return ResponseEntity.status(HttpStatus.OK)
-						.body(postagemRepository.save(postagem));
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-			
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	public ResponseEntity<PostagemModel> put(@Valid @RequestBody PostagemModel postagens){
+		return postagemRepository.findById(postagens.getId())
+				.map(resp -> ResponseEntity.status(HttpStatus.CREATED)
+				.body(postagemRepository.save(postagens)))
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
+
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		Optional<PostagemModel> postagem = postagemRepository.findById(id);
+		Optional<PostagemModel> postagens = postagemRepository.findById(id);
 		
-		if(postagem.isEmpty())
+		if(postagens.isEmpty())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		postagemRepository.deleteById(id);
 	}

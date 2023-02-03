@@ -14,32 +14,36 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-//Declarando que criaremos a tabela de temas dentro do mysql
-
 @Entity
-@Table(name = "tb_temas")
-public class TemaModel {
-
-//Itens dentro da tabela temas do projeto
-
+@Table(name = "tb_usuarios")
+public class UsuariosModel {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message = "Defina o tema de sua postagem!")
-	@Size(min = 5, max = 66)
-	private String tema;
+	@NotNull(message = "Insira seu nome")
+	@Size(max = 35)
+	private String nome;
 	
-	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("tema")
-	private List<PostagemModel> postagens;
+	@NotNull(message = "Insira sua senha")
+	@Size(max = 144)
+	private String senha;
+	
+	private String foto;
+	
+
+	@OneToMany(mappedBy =  "titulo", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("titulo")
+	private List<PostagemModel> titulo;
+	
 
 	public List<PostagemModel> getPostagens() {
-		return postagens;
+		return titulo;
 	}
 
 	public void setPostagens(List<PostagemModel> postagens) {
-		this.postagens = postagens;
+		this.titulo = postagens;
 	}
 
 	public Long getId() {
@@ -50,13 +54,30 @@ public class TemaModel {
 		this.id = id;
 	}
 
-	public String getTemas() {
-		return tema;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setTema(String temas) {
-		this.tema = temas;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 	
 	
+
 }

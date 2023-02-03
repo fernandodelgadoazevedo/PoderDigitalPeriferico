@@ -25,7 +25,7 @@ import com.podergital.pdp.repository.TemaRepository;
 
 
 @RestController
-@RequestMapping("/postagens")
+@RequestMapping("/temas")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TemaController {
 	
@@ -46,30 +46,30 @@ public class TemaController {
 	
 
 	@GetMapping("/temas/{temas}")
-	public ResponseEntity<List<TemaModel>> getByTitle(@PathVariable String tema){
-		return ResponseEntity.ok(temaRepository.findAllByTemaContainingIgnoreCase(tema));
+	public ResponseEntity<List<TemaModel>> getByTitle(@PathVariable String temas){
+		return ResponseEntity.ok(temaRepository.findAllByTemaContainingIgnoreCase(temas));
 	}
 	
 	@PostMapping
-	public ResponseEntity<TemaModel> post(@Valid @RequestBody TemaModel tema){
+	public ResponseEntity<TemaModel> post(@Valid @RequestBody TemaModel temas){
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(temaRepository.save(tema));
+				.body(temaRepository.save(temas));
 	}
 	
 	@PutMapping
-	public ResponseEntity<TemaModel> put(@Valid @RequestBody TemaModel tema){
-		return temaRepository.findById(tema.getId())
+	public ResponseEntity<TemaModel> put(@Valid @RequestBody TemaModel temas){
+		return temaRepository.findById(temas.getId())
 				.map(resp -> ResponseEntity.status(HttpStatus.CREATED)
-				.body(temaRepository.save(tema)))
+				.body(temaRepository.save(temas)))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		Optional<TemaModel> tema = temaRepository.findById(id);
+		Optional<TemaModel> temas = temaRepository.findById(id);
 		
-		if(tema.isEmpty())
+		if(temas.isEmpty())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		
 		temaRepository.deleteById(id);
