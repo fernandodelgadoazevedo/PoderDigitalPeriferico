@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -16,22 +17,26 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tb_usuarios")
-public class UsuariosModel {
+public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotNull(message = "Insira seu nome")
-	@Size(max = 35)
+	@Size(max = 35,message = "Insira seu nome!")
 	private String nome;
 	
+	@NotNull(message = "Insira seu email!")
+	@Email(message = "Insira um email valido!")
+	private String usuario;
+	
 	@NotNull(message = "Insira sua senha")
-	@Size(max = 144)
+	@Size(min = 8 ,max = 144)
 	private String senha;
 	
+	@Size(max = 5000, message = "Faça o upload da sua foto")
 	private String foto;
-	
 
 	@OneToMany(mappedBy =  "usuario", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("usuario")
@@ -77,7 +82,14 @@ public class UsuariosModel {
 	public void setFoto(String foto) {
 		this.foto = foto;
 	}
-	
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 	
 
 }
