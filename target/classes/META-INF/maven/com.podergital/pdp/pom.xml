@@ -14,7 +14,7 @@
 	<name>Poder Digital Periferico</name>
 	<description>Projeto com objetivo de mostrar a realidade da comunidade.</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 	<dependency>
